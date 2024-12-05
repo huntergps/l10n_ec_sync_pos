@@ -18,11 +18,13 @@
         'sale',
         'purchase',
         'point_of_sale',
+        'l10n_ec_edi_pos',
+
     ],
     'data': [
         'security/ir.model.access.csv',
         'views/res_config_settings_views.xml',
-        'views/pos_order_view.xml',    
+        'views/pos_order_view.xml',
     ],
     'assets': {
         'point_of_sale._assets_pos': [
