@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pos_order_view_form_pos_sync_pos_info" model="ir.ui.view">
+        <field name="name">pos.order.view.form.inherit.point_of_sale.pos.syn.pos.info</field>
+        <field name="model">pos.order</field>
+        <field name="priority" eval="95"/>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='state' and @widget='statusbar' and @statusbar_visible='draft,paid,done']" position="replace">
+              <field name="state" widget="statusbar" invisible="state == 'cancel'" statusbar_visible="draft,pending,paid,done"/>
+          </xpath>
+          <xpath expr="//field[@name='state' and @widget='statusbar' and @statusbar_visible='draft,cancel']" position="replace">
+              <field name="state" widget="statusbar" invisible="state != 'cancel'" statusbar_visible="draft,pending,cancel"/>
+          </xpath>
+
+
+
+          <xpath expr="//page[@name='payments']" position="after">
+              <page name="additional_info" string="Información Sincronizacion">
+                  <group >
+                      <field name="date_order_pending" readonly="1" />
+                      <field name="sequence_number_init" readonly="1" />
+                      <field name="session_id_init" readonly="1" />
+                      <field name="config_id_init"  readonly="1"/>
+                  </group>
+                  <!-- <group col="2">
+                      <field name="seller_pos_id"  readonly="1"/>
+                      <field name="seller_name"  readonly="1" />
+                  </group> -->
+                  <group >
+                    <field name="seller_user_id"  readonly="1"/>
+                      <!-- <field name="seller_pos_id"  readonly="1"/> -->
+                      <!-- <field name="employee_pos_id"  readonly="1"/> -->
+                      <field name="employee_user_id"  readonly="1"/>
+                  </group>
+              </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
