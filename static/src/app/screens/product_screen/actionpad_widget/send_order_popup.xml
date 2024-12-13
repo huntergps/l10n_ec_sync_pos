@@ -1,0 +1,40 @@
+
+<t t-name="l10n_ec_sync_pos.SendOrderPopup">
+    <Dialog size="'md'">
+        <t t-set-slot="header">
+            <h4 class="modal-title text-break">
+                Enviar Orden Actual
+            </h4>
+        </t>
+
+        <div class="main_div_pos_session">
+            <table class="session_table">
+              <p>Selecciona una sesión para enviar la orden actual:</p>
+                <t t-if="env.services.pos.sessions">
+                    <t t-foreach="env.services.pos.sessions" t-as="session" t-key="session.id">
+                        <t>
+                            <tr t-att-data-value="session.id" t-on-click="highlight_row">
+                                <t t-if="session.pos_receiver">
+                                    <td>
+                                        <t t-esc="session.name" />
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </t>
+                </t>
+            </table>
+        </div>
+
+        <t t-set-slot="footer">
+            <button class="backend-button button btn btn-lg btn-primary"
+                t-on-click="send">
+                Enviar Orden
+            </button>
+            <button class="button btn btn-lg btn-primary"
+                t-on-click="cancel">
+                Cerrar
+            </button>
+        </t>
+    </Dialog>
+</t>

@@ -8,12 +8,26 @@
         <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
         <field name="arch" type="xml">
           <xpath expr="//field[@name='state' and @widget='statusbar' and @statusbar_visible='draft,paid,done']" position="replace">
-              <field name="state" widget="statusbar" invisible="state == 'cancel'" statusbar_visible="draft,pending,paid,done"/>
+              <field name="state" widget="statusbar" invisible="state == 'cancel'" statusbar_visible="draft,waiting,paid,done"/>
           </xpath>
           <xpath expr="//field[@name='state' and @widget='statusbar' and @statusbar_visible='draft,cancel']" position="replace">
-              <field name="state" widget="statusbar" invisible="state != 'cancel'" statusbar_visible="draft,pending,cancel"/>
+              <field name="state" widget="statusbar" invisible="state != 'cancel'" statusbar_visible="draft,waiting,cancel"/>
           </xpath>
 
+
+          <xpath expr="//field[@name='session_id']" position="replace">
+              <field name="session_id"  readonly="state in ['done', 'invoiced','cancel']"/>
+          </xpath>
+
+          <xpath expr="//field[@name='employee_id']" position="attributes">
+              <attribute name="readonly">state in ['done', 'invoiced','cancel']</attribute>
+          </xpath>
+
+
+
+          <field name="user_id" position="attributes">
+              <attribute name="ready">state in ['done', 'invoiced','cancel']</attribute>
+          </field>
 
 
           <xpath expr="//page[@name='payments']" position="after">
@@ -21,18 +35,21 @@
                   <group >
                       <field name="date_order_pending" readonly="1" />
                       <field name="sequence_number_init" readonly="1" />
-                      <field name="session_id_init" readonly="1" />
-                      <field name="config_id_init"  readonly="1"/>
+                      <field name="config_id_waiting"  readonly="state in ['done', 'invoiced','cancel']"/>
+                      <field name="session_id_waiting"  readonly="state in ['done', 'invoiced','cancel']"/>
+                      <field name="session_id_init"  readonly="state in ['done', 'invoiced','cancel']"/>
+                      <field name="config_id_init"  readonly="state in ['done', 'invoiced','cancel']"/>
                   </group>
                   <!-- <group col="2">
                       <field name="seller_pos_id"  readonly="1"/>
                       <field name="seller_name"  readonly="1" />
                   </group> -->
                   <group >
-                    <field name="seller_user_id"  readonly="1"/>
+                    <field name="seller_user_id"  readonly="state in ['done', 'invoiced','cancel']"/>
                       <!-- <field name="seller_pos_id"  readonly="1"/> -->
                       <!-- <field name="employee_pos_id"  readonly="1"/> -->
-                      <field name="employee_user_id"  readonly="1"/>
+                      <field name="employee_user_id"  readonly="state in ['done', 'invoiced','cancel']"/>
+                      <field name="nb_print"  readonly="state in ['done', 'invoiced','cancel']"/>
                   </group>
               </page>
             </xpath>

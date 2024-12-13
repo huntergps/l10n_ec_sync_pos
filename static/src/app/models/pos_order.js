@@ -18,9 +18,12 @@ import {
 
 patch(PosOrder.prototype, {
 
+  get finalized() {
+      return !["draft", "waiting"].includes(this.state);
+  },
+
 
 get_newUUID() {
-  console.log("this.sequence_number:  ",this.sequence_number);
   this.tracking_number =((this.session?.id % 10) * 100 + (this.sequence_number % 100)).toString();
   this.uuid = uuidv4();
 },
