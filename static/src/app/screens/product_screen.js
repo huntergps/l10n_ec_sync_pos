@@ -4,9 +4,6 @@ import { patch } from "@web/core/utils/patch";
 import { useService } from "@web/core/utils/hooks";
 
 patch(ProductScreen.prototype, {
-    /**
-     * @override
-     */
     setup() {
       this.dialog = useService("dialog");
         super.setup(...arguments);

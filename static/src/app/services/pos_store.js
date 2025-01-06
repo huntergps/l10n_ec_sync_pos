@@ -55,9 +55,12 @@ patch(PosStore.prototype, {
     }
   },
   async onTicketButtonClick() {
-      if (this.isTicketScreenShown) {
+    if (this.isTicketScreenShown)
+    {
           this.closeScreen();
-      } else {
+    }
+    else
+    {
         if (this.config.pos_receiver)
         {
               try {
@@ -68,22 +71,26 @@ patch(PosStore.prototype, {
                   this.showScreen("TicketScreen");
               }
       }
-
-    else {
-      if (this._shouldLoadOrders()) {
-          try {
-              this.setLoadingOrderState(true);
-              await this.getServerOrders();
-          } finally {
-              this.setLoadingOrderState(false);
+      else
+      {
+          if (this._shouldLoadOrders())
+          {
+              try {
+                  this.setLoadingOrderState(true);
+                  await this.getServerOrders();
+              } finally {
+                  this.setLoadingOrderState(false);
+                  this.showScreen("TicketScreen");
+              }
+          }
+          else
+          {
               this.showScreen("TicketScreen");
           }
-      } else {
-          this.showScreen("TicketScreen");
       }
     }
-  }
   },
+
   async syncAllOrders1111(options = {}) {
       const { orderToCreate, orderToUpdate } = this.getPendingOrder();
       let orders = [...orderToCreate, ...orderToUpdate];
@@ -211,28 +218,49 @@ patch(PosStore.prototype, {
         }
     },
 
-    get firstScreen() {
-        if (odoo.from_backend) {
-            // Remove from_backend params in the URL but keep the rest
-            const url = new URL(window.location.href);
-            url.searchParams.delete("from_backend");
-            window.history.replaceState({}, "", url);
 
-            if (!this.config.module_pos_hr) {
-                this.set_cashier(this.user);
+        get firstScreen() {
+            if (odoo.from_backend) {
+                // Remove from_backend params in the URL but keep the rest
+                const url = new URL(window.location.href);
+                url.searchParams.delete("from_backend");
+                window.history.replaceState({}, "", url);
+
+                if (!this.config.module_pos_hr) {
+                    this.set_cashier(this.user);
+                }
             }
-        }
 
-        if (!this.cashier) {
-            // No cashier: if pos_receiver is true, show TicketScreen, otherwise ProductScreen
-            return this.config.pos_receiver ? "TicketScreen" : "ProductScreen";
-        } else {
-            // If there's a cashier, check pos_receiver to decide the screen
-            return this.config.pos_receiver ? "TicketScreen" : "ProductScreen";
-        }
+            if (!this.cashier) {
+                return "LoginScreen";
+            } else {
+                return this.config.pos_receiver ? "TicketScreen" : "ProductScreen";
+            }
 
-        return screen
-    },
+        },
+        
+    // get firstScreen() {
+    //     if (odoo.from_backend) {
+    //         // Remove from_backend params in the URL but keep the rest
+    //         const url = new URL(window.location.href);
+    //         url.searchParams.delete("from_backend");
+    //         window.history.replaceState({}, "", url);
+    //
+    //         if (!this.config.module_pos_hr) {
+    //             this.set_cashier(this.user);
+    //         }
+    //     }
+    //
+    //     if (!this.cashier) {
+    //         // No cashier: if pos_receiver is true, show TicketScreen, otherwise ProductScreen
+    //         return this.config.pos_receiver ? "TicketScreen" : "ProductScreen";
+    //     } else {
+    //         // If there's a cashier, check pos_receiver to decide the screen
+    //         return this.config.pos_receiver ? "TicketScreen" : "ProductScreen";
+    //     }
+    //
+    //     return screen
+    // },
     // return the current order
     get_order() {
         if (!this.selectedOrderUuid) {

@@ -19,9 +19,9 @@
               <field name="session_id"  readonly="state in ['done', 'invoiced','cancel']"/>
           </xpath>
 
-          <xpath expr="//field[@name='employee_id']" position="attributes">
+          <!-- <xpath expr="//field[@name='employee_id']" position="attributes">
               <attribute name="readonly">state in ['done', 'invoiced','cancel']</attribute>
-          </xpath>
+          </xpath> -->
 
 
 

@@ -122,8 +122,6 @@ class PosOrder(models.Model):
 
 
     def _process_saved_order(self, draft):
-        print("***********  _process_saved_order *****************")
-        print("self.state : ",self.state)
         if self.state=='waiting':
             draft=True
             if self.config_waiting_id:

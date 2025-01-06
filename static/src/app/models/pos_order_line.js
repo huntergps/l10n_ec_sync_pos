@@ -15,13 +15,10 @@ import {
 } from "@point_of_sale/app/models/utils/tax_utils";
 
 
-
 patch(PosOrderline.prototype, {
-
 
 get_unitNew() {
     return this.product_uom_id || this.product_id.uom_id;
 },
-
 
 });
